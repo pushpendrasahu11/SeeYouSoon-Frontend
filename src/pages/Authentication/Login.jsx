@@ -6,6 +6,7 @@ import * as Yup from "yup"
 // (Instead of manually checking "if email includes '@'", etc., Yup does it smartly.)
 import { useDispatch } from 'react-redux';
 import { loginUserAction } from '../../redux/Auth/auth.action';
+import { useNavigate } from 'react-router-dom';
 
 
 const initialValues = { email: "", password: "" };
@@ -14,6 +15,8 @@ const Login = () => {
 
     const [formValue, setFormValue] = useState();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const handleSubmit = (values) => {
 
         console.log("handle submit", values)
@@ -46,6 +49,10 @@ const Login = () => {
                 </Form>
 
             </Formik>
+            <div className='flex gap-2 items-center justify-center pt-5'>
+                <p>Don't have account </p>
+                <Button onClick={()=>navigate("/signup")}>Register</Button>
+            </div>
 
         </>
     )

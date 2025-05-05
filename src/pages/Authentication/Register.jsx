@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import { Formik, ErrorMessage, Field, Form } from 'formik';
 import * as Yup from "yup"
 import { useDispatch } from 'react-redux';
+
+import { useNavigate } from 'react-router-dom';
 import { registerUserAction } from '../../redux/Auth/auth.action';
 
 
@@ -12,6 +14,7 @@ const Register = () => {
 
   const [gender, setGender] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (values) => {
     values.gender = gender;
@@ -66,7 +69,10 @@ const Register = () => {
         </Form>
 
       </Formik>
-
+      <div className='flex gap-2 items-center justify-center pt-5'>
+          <p>Alreday have account </p>
+          <Button onClick={()=>navigate("/login")}>Login</Button>
+      </div>
     </>
   )
 }
