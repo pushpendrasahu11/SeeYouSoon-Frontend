@@ -81,7 +81,7 @@ export const updateProfileAction=(reqData)=>async(dispatch)=>{
     try{
 
         const {data} = await api.put(
-            `${API_BASE_URL}/auth/users`,reqData
+            `${API_BASE_URL}/api/users`,reqData
         );
 
         

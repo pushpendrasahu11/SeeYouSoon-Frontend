@@ -4,6 +4,7 @@ import UserReelCard from 'components/Reels/UserReelCard';
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom'
+import ProfileModal from './ProfileModal';
 
 const tabs =[
   {value:"post",name:"Post"},
@@ -17,12 +18,15 @@ const savedPost=[1,1,1,1]
 const repost=[1,1,1,1]
 const Profile = () => {
   const {auth} = useSelector(store=>store);
-  const [value, setValue] = React.useState('one');
+  const [value, setValue] = React.useState('post');
+  const [open, setOpen] = React.useState(false);
+  const {id} = useParams();
+  const handleClose = () => setOpen(false);
+  const handleOpenProfileModal = () => setOpen(true);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const {id} = useParams()
   return (
     <Card className='py-10 w-[70%]' >
       <div className="rounded-md">
@@ -32,7 +36,7 @@ const Profile = () => {
         <div className="px-5 flex justify-between items-start mt-5 h-[5rem]">
           <Avatar className='transform -translate-y-24' sx={{width:"10rem",height:"10rem",border:"black solid 0.2rem"}} src='https://cdn.pixabay.com/photo/2015/09/05/22/31/headphones-925789_1280.jpg'/>
           {true ? 
-          <Button sx={{ borderRadius: "20px" }} variant='outlined'>Edit Profile</Button> 
+          <Button sx={{ borderRadius: "20px" }} variant='outlined' onClick={handleOpenProfileModal}>Edit Profile</Button> 
           : 
           <Button sx={{ borderRadius: "20px" }} variant='outlined'>Follow</Button>
           }
@@ -103,7 +107,12 @@ const Profile = () => {
           
         } 
       </div>
+      </section>
+      <div>
+        <section>
+          <ProfileModal open={open} handleClose={handleClose}></ProfileModal>
         </section>
+      </div>
       </div>
     </Card>
   )
