@@ -87,7 +87,7 @@ export const updateProfileAction=(reqData)=>async(dispatch)=>{
         
 
         console.log("user profile update", data);
-        dispatch({type : UPDATE_PROFILE_SUCCESS,payload:data.jwt});
+        dispatch({type : UPDATE_PROFILE_SUCCESS,payload:data});
 
     }catch(error){
 
