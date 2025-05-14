@@ -17,7 +17,7 @@ const MiddlePart = () => {
   const dispatch = useDispatch();
 
   const {post} = useSelector(store=>store);
-  console.log("post  store",post);
+  // console.log("post  store",post);
 
   const [openCreatePostModal,setOpenCreatePostModal] = useState(false);
 

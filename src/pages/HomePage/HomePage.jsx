@@ -22,7 +22,7 @@ const HomePage = () => {
   //   dispatch(getProfileAction(jwt))
   // },[])
 
-  console.log("auth",auth);
+  // console.log("auth",auth);
   
   return (
     <div className='px-20'>

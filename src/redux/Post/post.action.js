@@ -21,7 +21,7 @@ export const getAllPostAction=()=>async(dispatch)=>{
         const {data} = await api.get("/api/posts");
 
         dispatch({type:GET_ALL_POST_SUCCESS,payload:data})
-        console.log("get all post ",data)
+        // console.log("get all post ",data)
         
     }catch (error){
         console.log("error ",error)
@@ -35,7 +35,7 @@ export const getUserPostAction=(userId)=>async(dispatch)=>{
     try{
         const {data} = await api.get(`/api/posts/user/${userId}`)
         dispatch({type:GET_USER_POST_SUCCESS,payload:data})
-        console.log("get all post ",data)
+        // console.log("get all post ",data)
     }catch (error){
         console.log("error ",error)
         dispatch({type:GET_USER_POST_FAILURE,payload:error})
@@ -46,9 +46,9 @@ export const likePostAction=(postId)=>async(dispatch)=>{
     dispatch({type:LIKE_POST_REQUEST})
 
     try{
-        const {data} = await api.get(`/api/posts/like/${postId}`)
+        const {data} = await api.put(`/api/posts/like/${postId}`)
         dispatch({type:LIKE_POST_SUCCESS,payload:data})
-        console.log("get all post ",data)
+        console.log("LIKE POST ",data)
     }catch (error){
         console.log("error ",error)
         dispatch({type:LIKE_POST_FAILURE,payload:error})
@@ -66,4 +66,5 @@ export const createCommentAction=(reqData)=>async(dispatch)=>{
         console.log("error ",error)
         dispatch({type:CREATE_COMMENT_FAILURE,payload:error})
     }
+
 }
