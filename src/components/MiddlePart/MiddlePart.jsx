@@ -16,7 +16,7 @@ const MiddlePart = () => {
 
   const dispatch = useDispatch();
 
-  const {post} = useSelector(store=>store);
+  const {post,auth} = useSelector(store=>store);
   // console.log("post  store",post);
 
   const [openCreatePostModal,setOpenCreatePostModal] = useState(false);
@@ -28,9 +28,11 @@ const MiddlePart = () => {
     setOpenCreatePostModal(true);
   }
 
-  useEffect(()=>{
+ useEffect(() => {
+  if (auth.user) {
     dispatch(getAllPostAction());
-  },[post.newComment])
+  }
+}, [auth.user, post.newComment]); 
 
   return (
     <div className='px-20'>

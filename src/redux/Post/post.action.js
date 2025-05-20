@@ -9,7 +9,7 @@ export const createPostAction=(postData)=>async(dispatch)=>{
         dispatch({type:CREATE_POST_SUCCESS,payload:data})
         console.log("created post ",data)
     }catch (error){
-        console.log("error",error)
+        console.log("error ",error)
         dispatch({type:CREATE_POST_FAILURE,payload:error})
     }
 }
@@ -24,7 +24,7 @@ export const getAllPostAction=()=>async(dispatch)=>{
         // console.log("get all post ",data)
         
     }catch (error){
-        console.log("error ",error)
+        console.log("error get post",error)
         dispatch({type:GET_ALL_POST_FAILURE,payload:error})
     }
 }

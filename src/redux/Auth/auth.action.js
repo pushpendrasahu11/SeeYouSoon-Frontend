@@ -18,6 +18,7 @@ export const loginUserAction=(loginData)=>async(dispatch)=>{
         console.log("login success")
         dispatch({type : LOGIN_SUCCESS,payload:data.token});
 
+        // window.location.reload();
     }catch(error){
 
         console.log("-----------error----------",error);
