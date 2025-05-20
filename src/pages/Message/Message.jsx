@@ -4,6 +4,9 @@ import WestIcon from '@mui/icons-material/West';
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import SearchUser from 'components/SearchUser/SearchUser';
+import UserChatCard from './UserChatCard';
+import ChatMessage from './ChatMessage';
 
 const Message = () => {
 
@@ -22,11 +25,11 @@ const Message = () => {
             </div>
             <div className="h-[83vh]">
               <div className="">
-                searchUser
+                <SearchUser></SearchUser>
 
               </div>
               <div className='h-full space-y-4 mt5 overflow-y-scroll hideScrollbar'>
-                UserChatCard
+                <UserChatCard></UserChatCard>
               </div>
             </div>
           </div>
@@ -49,7 +52,7 @@ const Message = () => {
             </div>
           </div>
           <div className='hideScrollbar overflow-y-scroll h-[82vh] px-2 space-y-5 py-5'>
-            messages
+            <ChatMessage />
           </div>
         </div>
         <div className="sticky bottom-0 border-l">
