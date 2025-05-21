@@ -1,5 +1,5 @@
 
-import { LOGIN_FAILURE, LOGIN_SUCCESS, REGISTER_FAILURE ,REGISTER_REQUEST,REGISTER_SUCCESS,LOGIN_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAILURE} from "./auth.actionType"
+import { LOGIN_FAILURE, LOGIN_SUCCESS, REGISTER_FAILURE ,REGISTER_REQUEST,REGISTER_SUCCESS,LOGIN_REQUEST, GET_PROFILE_SUCCESS, GET_PROFILE_FAILURE, GET_PROFILE_REQUEST, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAILURE, SEARCH_USER_FAILURE, SEARCH_USER_REQUEST, SEARCH_USER_SUCCESS} from "./auth.actionType"
 import { api, API_BASE_URL } from "../../config/api"
 import axios from "axios"
 
@@ -94,6 +94,26 @@ export const updateProfileAction=(reqData)=>async(dispatch)=>{
 
         console.log("-----------error----------",error);
         dispatch({type:UPDATE_PROFILE_FAILURE,payload:error})
+
+        
+    }
+}
+
+export const searchUser=(query)=>async(dispatch)=>{
+    dispatch({type: SEARCH_USER_REQUEST});
+    try{
+        console.log(query + "query is")
+        const {data} = await api.get(`/api/users/search?query=${query}`)
+
+        
+
+        console.log("serach user ......", data);
+        dispatch({type : SEARCH_USER_SUCCESS,payload:data});
+
+    }catch(error){
+
+        console.log("-----------error----------",error);
+        dispatch({type:SEARCH_USER_FAILURE,payload:error})
 
         
     }
