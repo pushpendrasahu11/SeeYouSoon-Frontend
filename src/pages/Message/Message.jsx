@@ -1,4 +1,4 @@
-import { Avatar, Grid, IconButton } from '@mui/material'
+import { Avatar, Backdrop, CircularProgress, Grid, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import WestIcon from '@mui/icons-material/West';
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
@@ -18,7 +18,7 @@ const Message = () => {
   const {message,auth} = useSelector(store=>store);
   const [currentChat,setCurrentChat] = useState();
   const [messages,setMessages] = useState([]);
-  const [selectedImage,setSelectedImage] = useState();
+  const [selectedImage,setSelectedImage] = useState("");
   const [loading, setLoading] = useState(false);
   
   useEffect(()=>{
@@ -40,13 +40,16 @@ const Message = () => {
 
 
   const handleCreateMessage=(value)=>{
+    console.log("selected image is ",selectedImage);
     const message={
       chatId: currentChat.id,
       content:value,
       image:selectedImage
     };
+    console.log("selected image is ",selectedImage);
 
-    dispatch(createMessage(message))
+    dispatch(createMessage(message));
+    console.log("message is sent")
   }
 
   useEffect(()=>{
@@ -109,11 +112,15 @@ const Message = () => {
             ) }
           </div>
           <div className="sticky bottom-0 border-l">
+            {selectedImage && <img src={selectedImage} className='w-[5rem] h-[5rem] object-cover px-2' alt="" />}
           <div className="py-5 flex items-center justify-center space-x-5">
+           
             <input
              onKeyPress={(e)=>{
               if(e.key==="Enter" && e.target.value){
                 handleCreateMessage(e.target.value)
+                setSelectedImage("");
+                e.target.value="";
               }
             }}
             type="text" 
@@ -137,6 +144,14 @@ const Message = () => {
         
       </Grid>
     </Grid>
+
+    
+  <Backdrop
+    sx={(theme) => ({ color: '#fff', zIndex: theme.zIndex.drawer + 1 })}
+    open={loading}
+  >
+    <CircularProgress color="inherit" />
+  </Backdrop>
   </div>
 )
 };

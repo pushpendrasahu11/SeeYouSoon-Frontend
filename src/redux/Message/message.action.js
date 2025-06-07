@@ -4,10 +4,12 @@ import * as actionType from "./message.actionType"
 export const createMessage=(message)=>async(dispatch)=>{
     dispatch({type:actionType.CREATE_MESSAGE_REQUEST})
     try{
+        console.log("message here is ",message)
         const {data} = await api.post(`/api/messages/chat/${message.chatId}`,message);
 
         console.log("created messaage", data);
-        dispatch({type:actionType.CREATE_MESSAGE_SUCCESS})
+        dispatch({type:actionType.CREATE_MESSAGE_SUCCESS,payload:data})
+        
     }catch(error){
         console.log("catch error create message", error);
 
@@ -24,7 +26,7 @@ export const createChat=(chat)=>async(dispatch)=>{
         const {data} = await api.post(`/api/chats`,chat);
 
         console.log("created chat", data);
-        dispatch({type:actionType.CREATE_CHAT_SUCCESS})
+        dispatch({type:actionType.CREATE_CHAT_SUCCESS,payload:data})
     }catch(error){
         console.log("catch error create chat", error);
 
