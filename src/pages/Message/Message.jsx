@@ -11,6 +11,9 @@ import ChatMessage from './ChatMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { createMessage, getAllChats } from '../../redux/Message/message.action';
 import { uploadToCloudinary } from 'utils/uploadToCloudinary';
+import { API_BASE_URL } from 'config/api';
+import SockJS from 'sockjs-client';
+import Stom from 'stompjs';
 
 const Message = () => {
 
@@ -42,19 +45,55 @@ const Message = () => {
   const handleCreateMessage=(value)=>{
     console.log("selected image is ",selectedImage);
     const message={
-      chatId: currentChat.id,
+      chatId: currentChat?.id,
       content:value,
       image:selectedImage
     };
     console.log("selected image is ",selectedImage);
 
-    dispatch(createMessage(message));
+    dispatch(createMessage({message,sendMessageToServer}));
     console.log("message is sent")
-  }
+  };
 
   useEffect(()=>{
     setMessages([...messages,message.message])
   },[message.message])
+
+
+  const [stompClient, setStompClient] = useState(null);
+
+  useEffect(()=>{
+    // const sock = new SockJS(`${API_BASE_URL}+"/ws"`);
+    const sock = new SockJS("http://localhost:5000/ws");
+    const stomp = Stom.over(sock);
+    setStompClient(stomp);
+
+    stomp.connect({},onConnect,onErr)
+      
+  },[])
+
+  const onConnect=()=>{
+    console.log("websocket connected");
+  }
+  const onErr=(error)=>{
+    console.error("websocket Error",error);
+  }
+
+  useEffect(()=>{
+      if(stompClient && auth.user && currentChat){
+        const subscription = stompClient.subscribe(`/user/${currentChat?.id}/private`,onMessageReceive)
+      }
+  })
+
+  const sendMessageToServer=(newMessage)=>{
+    if(stompClient && newMessage){
+      stompClient.send(`/app/chat/${currentChat?.id.toString()}`,{},JSON.stringify(message))
+    } 
+  }
+
+  const onMessageReceive=(newMessage)=>{
+    console.log("message recier form websocket ", newMessage)
+  }
 
   return (
   <div>
@@ -95,7 +134,7 @@ const Message = () => {
           <div className="flex justify-between items-center border-l p-5">
             <div className="flex items-center space-x-3">
               <Avatar src='https://cdn.pixabay.com/photo/2023/06/23/11/23/ai-generated-8083323_1280.jpg' />
-              <p>{auth.user.id===currentChat.users[0].id?currentChat.users[1].firstName + " " + currentChat.users[1].lastName : currentChat.users[0].firstName + " " + currentChat.users[0].lastName }</p>
+              <p>{auth.user?.id===currentChat.users[0]?.id?currentChat.users[1].firstName + " " + currentChat.users[1].lastName : currentChat.users[0].firstName + " " + currentChat.users[0].lastName }</p>
             </div>
             <div className="flex space-x-3">
               <IconButton>
